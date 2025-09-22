@@ -11,6 +11,8 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    darkMode: 'class', // Add this line to enable dark mode
+
     theme: {
         extend: {
             fontFamily: {

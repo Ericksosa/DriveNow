@@ -42,8 +42,6 @@ Route::prefix('admin')->middleware([
     Route::resource('vehicle', VehicleController::class);
     Route::resource('customer', CustomerController::class);
     Route::resource('employee', EmployeeController::class);
-    Route::resource('inspection', InspectionController::class);
-    Route::resource('return-and-rents', ReturnAndRentsController::class);
     Route::resource('vehicle-type', VehicleTypeController::class);
     Route::resource('fuel-type', FuelTypeController::class);
     Route::resource('vehicle-model', VehicleModelController::class);
@@ -68,5 +66,6 @@ Route::prefix('employee')->middleware([
     Route::get('/dashboard', function () {
         return view('employee.dashboard');
     })->name('empleado.dashboard');
-
+    Route::resource('inspection', InspectionController::class);
+    Route::resource('return-and-rents', ReturnAndRentsController::class);
 });

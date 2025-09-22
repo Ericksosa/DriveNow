@@ -6,5 +6,5 @@
 @endsection
 @section('form-description', __('Edita los detalles de las rentas o retornos')) <!-- Cambia la descripción según sea necesario -->
 @section('form-content')
-    @include('admin.return-rents.form') <!-- Incluye el archivo de vista parcial del formulario -->
+    @include('employee.return-rents.form') <!-- Incluye el archivo de vista parcial del formulario -->
 @endsection

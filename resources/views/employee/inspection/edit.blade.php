@@ -6,5 +6,5 @@
 @endsection
 @section('form-description', __('Edita los detalles de las inspecciones')) <!-- Cambia la descripción según sea necesario -->
 @section('form-content')
-    @include('admin.inspection.form') <!-- Incluye el archivo de vista parcial del formulario -->
+    @include('employee.inspection.form') <!-- Incluye el archivo de vista parcial del formulario -->
 @endsection

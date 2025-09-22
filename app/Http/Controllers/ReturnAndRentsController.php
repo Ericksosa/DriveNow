@@ -18,7 +18,7 @@ class ReturnAndRentsController extends Controller
     public function index()
     {
         $returnRents = ReturnsAndRents::paginate(15);
-        return view('admin.return-rents.index', compact('returnRents'));
+        return view('employee.return-rents.index', compact('returnRents'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ReturnAndRentsController extends Controller
         $customers = Customer::all();
         $vehicles = Vehicle::all();
         $statuses = config('constants.returnRents-status');
-        return view('admin.return-rents.create', compact('customers', 'vehicles', 'statuses'));
+        return view('employee.return-rents.create', compact('customers', 'vehicles', 'statuses'));
     }
 
     /**
@@ -46,10 +46,10 @@ class ReturnAndRentsController extends Controller
             ReturnsAndRents::create($data);
 
             DB::commit();
-            return redirect()->route('return-rents.index')->with('success', 'Retorno creado correctamente');
+            return redirect()->route('return-and-rents.index')->with('success', 'Retorno creado correctamente');
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('return-rents.index')->with('error', 'Error al crear el retorno');
+            return redirect()->route('return-and-rents.index')->with('error', 'Error al crear el retorno');
         }
     }
 
@@ -61,7 +61,7 @@ class ReturnAndRentsController extends Controller
         $customers = Customer::all();
         $vehicles = Vehicle::all();
         $statuses = config('constants.returnRents-status');
-        return view('admin.return-rents.edit', compact('returnAndRent', 'customers', 'vehicles', 'statuses'));
+        return view('employee.return-rents.edit', compact('returnAndRent', 'customers', 'vehicles', 'statuses'));
     }
 
     /**
@@ -78,10 +78,10 @@ class ReturnAndRentsController extends Controller
             $returnAndRent->update($data);
 
             DB::commit();
-            return redirect()->route('return-rents.index')->with('success', 'Retorno actualizado correctamente');
+            return redirect()->route('return-and-rents.index')->with('success', 'Retorno actualizado correctamente');
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('return-rents.index')->with('error', 'Error al actualizar el retorno');
+            return redirect()->route('return-and-rents.index')->with('error', 'Error al actualizar el retorno');
         }
     }
 
@@ -94,10 +94,10 @@ class ReturnAndRentsController extends Controller
         try {
             $returnAndRent->delete();
             DB::commit();
-            return redirect()->route('return-rents.index')->with('success', 'Retorno eliminado correctamente');
+            return redirect()->route('return-and-rents.index')->with('success', 'Retorno eliminado correctamente');
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->route('return-rents.index')->with('error', 'Error al eliminar el retorno');
+            return redirect()->route('return-and-rents.index')->with('error', 'Error al eliminar el retorno');
         }
     }
 }

@@ -18,7 +18,7 @@ class InspectionController extends Controller
     public function index()
     {
         $inspections = Inspection::paginate(15);
-        return view('admin.inspection.index', compact('inspections'));
+        return view('employee.inspection.index', compact('inspections'));
     }
 
     /**
@@ -31,7 +31,7 @@ class InspectionController extends Controller
         $tireStatuses = config('constants.tire-statuses');
         $yesNo = config('constants.yes-no');
         $fuel_levels = config('constants.fuel_level');
-        return view('admin.inspection.create', compact('vehicles', 'customers', 'tireStatuses', 'yesNo', 'fuel_levels'));
+        return view('employee.inspection.create', compact('vehicles', 'customers', 'tireStatuses', 'yesNo', 'fuel_levels'));
     }
 
     /**
@@ -41,7 +41,9 @@ class InspectionController extends Controller
     {
         DB::beginTransaction();
         try {
-            Inspection::create($request->all());
+            $data = $request->all();
+            $data['employee_id'] = auth()->user()->id;
+            Inspection::create($data);
             DB::commit();
             return redirect()->route('inspection.index')->with('success', 'Inspección creada correctamente');
         } catch (Exception $e) {
@@ -60,7 +62,7 @@ class InspectionController extends Controller
         $tireStatuses = config('constants.tire-statuses');
         $yesNo = config('constants.yes-no');
         $fuel_levels = config('constants.fuel_level');
-        return view('admin.inspection.edit', compact('inspection', 'vehicles', 'customers', 'tireStatuses', 'yesNo', 'fuel_levels'));
+        return view('employee.inspection.edit', compact('inspection', 'vehicles', 'customers', 'tireStatuses', 'yesNo', 'fuel_levels'));
     }
 
     /**
@@ -70,7 +72,9 @@ class InspectionController extends Controller
     {
         DB::beginTransaction();
         try {
-            $inspection->update($request->all());
+            $data = $request->all();
+            $data['employee_id'] = auth()->user()->id;
+            $inspection->update($data);
             DB::commit();
             return redirect()->route('inspection.index')->with('success', 'Inspección actualizada correctamente');
         } catch (Exception $e) {
