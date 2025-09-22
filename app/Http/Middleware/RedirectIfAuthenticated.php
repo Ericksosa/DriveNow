@@ -15,13 +15,23 @@ class RedirectIfAuthenticated
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        $guards = empty($guards) ? [null] : $guards;
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+            // Mapa de roles y sus rutas correspondientes
+            $roleRoutes = [
+                'Cliente' => 'cliente.dashboard',
+                'Administrador' => 'administrador.dashboard',
+                'Empleado' => 'empleado.dashboard',
+            ];
+
+            // Buscar la primera ruta correspondiente al rol del usuario
+            foreach ($roleRoutes as $role => $route) {
+                if ($user->hasRole($role)) {
+                    return redirect()->route($route);
+                }
             }
         }
 
