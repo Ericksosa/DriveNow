@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_model', function (Blueprint $table) {
+        Schema::create('vehicle_ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brand_id')->constrained('brands');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->softDeletes();
+            $table->foreignId('vehicle_id')->constrained('vehicles');
+            $table->foreignId('customer_id')->constrained('customers');
+            $table->tinyInteger('rating')->unsigned();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('models');
+        Schema::dropIfExists('vehicle_ratings');
     }
 };

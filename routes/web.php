@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FuelTypeController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\ReturnAndRentsController;
 use App\Http\Controllers\VehicleController;
@@ -23,9 +24,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout');
 
@@ -52,10 +51,7 @@ Route::prefix('client')->middleware([
     'verified',
     'role:Cliente'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('welcome');
-    })->name('cliente.dashboard');
-
+    Route::get('/dashboard', [IndexController::class, 'index'])->name('cliente.dashboard');
 });
 Route::prefix('employee')->middleware([
     'auth:sanctum',

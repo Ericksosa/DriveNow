@@ -61,28 +61,100 @@
                 placeholder="{{ __('Ej: Azul') }}">
         </div>
     </div>
-</div>
-<div class="space-y-2 flex-grow">
-    <div class="mt-4">
-        <label for="launching_year"
-            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Año de lanzamiento') }}</label>
+    <!-- Campo transmission -->
+    <div>
+        <label for="category"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Categoría de Vehículo') }}</label>
         <div class="relative mt-2 rounded-md shadow-sm">
-            <select name="launching_year" id="launching_year"
+            <select name="category" id="category"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="" disabled selected>{{ __('Seleccionar Año de Lanzamiento') }}</option>
-                @php
-                    $currentYear = date('Y') + 1; // Año actual + 1
-                @endphp
-                @for ($year = $currentYear; $year >= 1900; $year--)
-                    <option value="{{ $year }}"
-                        {{ $year == old('year', isset($vehicle) ? $vehicle->launching_year : '') ? 'selected' : '' }}>
-                        {{ $year }}
+                <option value="" disabled selected>{{ __('Seleccionar Categoría del Vehículo') }}</option>
+                @forelse ($categories as $value => $transmission)
+                    <option value="{{ $value }}"
+                        {{ $value == old('transmission', isset($vehicle) ? $vehicle->transmission : '') ? 'selected' : '' }}>
+                        {{ $transmission }}
                     </option>
-                @endfor
+                @empty
+                    <option value="" disabled>{{ __('Categorias no disponibles') }}</option>
+                @endforelse
             </select>
         </div>
     </div>
+    <!-- Campo number of doors -->
+    <div>
+        <label for="number_of_doors"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Número de puertas') }}</label>
+        <div class="relative mt-2 rounded-md shadow-sm">
+            <input type="number"
+                value="{{ old('number_of_doors', isset($vehicle) ? $vehicle->number_of_doors : '') }}"
+                name="number_of_doors" id="number_of_doors"
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{ __('Ej: 4') }}">
+        </div>
+    </div>
+    <!-- Campo transmission -->
+    <div>
+        <label for="transmission"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Categoría de Vehículo') }}</label>
+        <div class="relative mt-2 rounded-md shadow-sm">
+            <select name="transmission" id="transmission"
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="" disabled selected>{{ __('Seleccionar Categoría del Vehículo') }}</option>
+                @forelse ($transmissions as $value => $transmission)
+                    <option value="{{ $value }}"
+                        {{ $value == old('transmission', isset($vehicle) ? $vehicle->transmission : '') ? 'selected' : '' }}>
+                        {{ $transmission }}
+                    </option>
+                @empty
+                    <option value="" disabled>{{ __('Categorias no disponibles') }}</option>
+                @endforelse
+            </select>
+        </div>
+    </div>
+</div>
+<div class="space-y-2 flex-grow">
 
+    <label for="launching_year"
+        class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Año de lanzamiento') }}</label>
+    <div class="relative mt-2 rounded-md shadow-sm">
+        <select name="launching_year" id="launching_year"
+            class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value="" disabled selected>{{ __('Seleccionar Año de Lanzamiento') }}</option>
+            @php
+                $currentYear = date('Y') + 1; // Año actual + 1
+            @endphp
+            @for ($year = $currentYear; $year >= 1900; $year--)
+                <option value="{{ $year }}"
+                    {{ $year == old('year', isset($vehicle) ? $vehicle->launching_year : '') ? 'selected' : '' }}>
+                    {{ $year }}
+                </option>
+            @endfor
+        </select>
+    </div>
+    <!-- Campo number of seats -->
+    <div>
+        <label for="number_of_seats"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Número de asientos') }}</label>
+        <div class="relative mt-2 rounded-md shadow-sm">
+            <input type="number"
+                value="{{ old('number_of_seats', isset($vehicle) ? $vehicle->number_of_seats : '') }}"
+                name="number_of_seats" id="number_of_seats"
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{ __('Ej: 4') }}">
+        </div>
+    </div>
+    <!-- Campo amount per day -->
+    <div>
+        <label for="amount_per_day"
+            class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Monto por Día') }}</label>
+        <div class="relative mt-2 rounded-md shadow-sm">
+            <input type="number" step="0.01"
+                value="{{ old('amount_per_day', isset($vehicle) ? $vehicle->amount_per_day : '') }}"
+                name="amount_per_day" id="amount_per_day"
+                class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="{{ __('Ej: 4000') }}">
+        </div>
+    </div>
     <!-- Campo Vehicle Type -->
     <div>
         <label for="vehicle_type_id"
@@ -165,7 +237,7 @@
 
         <div id="image-preview"
             class="mt-2 h-32 w-32 bg-slate-700 rounded-lg flex items-center justify-center relative">
-            @if ($vehicle->hasMedia('vehicle_images'))
+            @if (isset($vehicle) && $vehicle->hasMedia('vehicle_images'))
                 <img id="logo-image" src="{{ $vehicle->getFirstMediaUrl('vehicle_images') }}" alt="Logo"
                     class="h-full w-full object-contain rounded-lg">
                 <button type="button" onclick="removeImage()"

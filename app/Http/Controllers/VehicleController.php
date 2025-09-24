@@ -30,8 +30,10 @@ class VehicleController extends Controller
         $vehicleTypes = VehicleType::all();
         $fuelTypes = FuelType::all();
         $vehicleModels = VehicleModel::all();
+        $categories = config('constants.categories');
+        $transmissions = config('constants.transmissions');
         $statuses = config('constants.vehicle-status');
-        return view('admin.vehicle.create', compact('vehicleTypes', 'fuelTypes', 'vehicleModels', 'statuses'));
+        return view('admin.vehicle.create', compact('vehicleTypes', 'fuelTypes', 'vehicleModels', 'statuses','categories','transmissions'));
     }
 
     /**

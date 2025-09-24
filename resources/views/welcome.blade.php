@@ -14,53 +14,15 @@
     <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}" type="image/x-icon">
 
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @vite('resources/css/welcome.css')
     <style>
-        /* Updated to Rentcars-inspired design with coastal road background */
         .hero-bg {
             background: linear-gradient(135deg, rgba(0, 102, 204, 0.4), rgba(0, 51, 102, 0.5)),
                 url('/images/utilities/main-banner.webp') center/cover;
             min-height: 100vh;
         }
-
-        .search-form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .btn-search {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .btn-search:hover {
-            background: linear-gradient(135deg, #059669, #047857);
-            transform: translateY(-1px);
-        }
-
-        .feature-badge {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .trust-badge {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Added automotive brand colors */
-        .brand-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 2rem;
-            align-items: center;
-        }
     </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="antialiased font-inter bg-white text-gray-900">
@@ -299,15 +261,21 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Car 1 - Economy -->
+                @forelse($premiumVehicles as $premiumVehicle)
+                <!-- Cars -->
                 <div
                     class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
                     <div class="relative">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Nissan Versa"
-                            class="w-full h-48 object-cover">
+                        @if ($premiumVehicle->hasMedia('vehicle_images'))
+                                        <img id="logo-image"
+                                            src="{{ $premiumVehicle->getFirstMediaUrl('vehicle_images') }}" alt="Logo"
+                                            class="h-full w-full object-contain rounded-lg">
+                                    @else
+                                        <span class="text-gray-400">No hay imagen. Suba una</span>
+                                    @endif
                         <div
                             class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            Económico
+                            {{ $premiumVehicle->category }}
                         </div>
                         <div
                             class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
@@ -315,15 +283,15 @@
                         </div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">Nissan Versa</h3>
-                        <p class="text-gray-600 mb-4">Perfecto para la ciudad. Económico y confiable.</p>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">{{ $premiumVehicle->name }}</h3>
+                        <p class="text-gray-600 mb-4">{{ $premiumVehicle->description }}</p>
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center space-x-4 text-sm text-gray-500">
                                 <span class="flex items-center">
                                     <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    5 asientos
+                                    {{ $premiumVehicle->number_of_seats }} asientos
                                 </span>
                                 <span class="flex items-center">
                                     <svg class="w-4 h-4 mr-1 text-orange-500" fill="currentColor"
@@ -332,13 +300,13 @@
                                             d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
                                         </path>
                                     </svg>
-                                    Manual
+                                    {{$premiumVehicle->transmission}}
                                 </span>
                             </div>
                         </div>
                         <div class="flex items-center justify-between">
                             <div>
-                                <span class="text-2xl font-bold text-blue-600">$25</span>
+                                <span class="text-2xl font-bold text-blue-600">RD${{ $premiumVehicle->amount_per_day }}</span>
                                 <span class="text-gray-500">/día</span>
                             </div>
                             @guest
@@ -355,120 +323,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Car 2 - SUV -->
-                <div
-                    class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="relative">
-                        <img src="/placeholder.svg?height=200&width=350" alt="Toyota RAV4"
-                            class="w-full h-48 object-cover">
-                        <div
-                            class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            SUV
-                        </div>
-                        <div
-                            class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            ⭐ 4.9
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">Toyota RAV4</h3>
-                        <p class="text-gray-600 mb-4">Espacioso y versátil para aventuras familiares.</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    7 asientos
-                                </span>
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-orange-500" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
-                                        </path>
-                                    </svg>
-                                    Automático
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-2xl font-bold text-blue-600">$45</span>
-                                <span class="text-gray-500">/día</span>
-                            </div>
-                            @guest
-                                <a href="{{ route('register') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
-                            @else
-                                <a href="{{ route(strtolower(Auth::user()->roles->first()->name) . '.dashboard') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
-                            @endguest
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car 3 - Luxury -->
-                <div
-                    class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="relative">
-                        <img src="/placeholder.svg?height=200&width=350" alt="BMW Serie 3"
-                            class="w-full h-48 object-cover">
-                        <div
-                            class="absolute top-4 left-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            Lujo
-                        </div>
-                        <div
-                            class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            ⭐ 5.0
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">BMW Serie 3</h3>
-                        <p class="text-gray-600 mb-4">Elegancia y performance para ocasiones especiales.</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    5 asientos
-                                </span>
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-orange-500" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
-                                        </path>
-                                    </svg>
-                                    Automático
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-2xl font-bold text-blue-600">$85</span>
-                                <span class="text-gray-500">/día</span>
-                            </div>
-                            @guest
-                                <a href="{{ route('register') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
-                            @else
-                                <a href="{{ route(strtolower(Auth::user()->roles->first()->name) . '.dashboard') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
-                            @endguest
-                        </div>
-                    </div>
-                </div>
+                @empty
+                <p>No hay vehiculos disponibles</p>
+                @endforelse
             </div>
 
             <!-- Call-to-action for viewing more cars -->

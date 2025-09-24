@@ -34,6 +34,11 @@ class VehicleRequest extends FormRequest
             'launching_year' => 'required|date_format:Y',
             'status' => 'required|string|max:255',
             'vehicle_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'category' => 'required|in:Lujo,Deportivo,Económico',
+            'transmission' => 'required|string|max:255',
+            'number_of_doors' => 'required|integer',
+            'number_of_seats' => 'required|integer',
+            'amount_per_day' => 'required|numeric',
         ];
     }
 }

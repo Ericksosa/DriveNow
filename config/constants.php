@@ -34,5 +34,14 @@ return [
         '1/2' => '1/2',
         '3/4' => '3/4',
         'lleno' => 'lleno'
+    ],
+    'categories' => [
+        'Lujo' => 'Lujo',
+        'Deportivo' => 'Deportivo',
+        'Económico' => 'Económico'
+    ],
+    'transmissions' => [
+        'Automático' => 'Automático',
+        'Manual' => 'Manual'
     ]
 ];

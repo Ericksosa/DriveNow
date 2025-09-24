@@ -20,11 +20,16 @@ class Vehicle extends Model implements HasMedia
         'engine_number',
         'plate_number',
         'launching_year',
+        'category',
+        'number_of_doors',
+        'number_of_seats',
+        'transmission',
         'color',
         'vehicle_type_id',
         'brand_id',
         'fuel_type_id',
         'vehicle_model_id',
+        'amount_per_day',
         'status'
     ];
 
