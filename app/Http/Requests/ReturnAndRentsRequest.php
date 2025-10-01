@@ -27,7 +27,7 @@ class ReturnAndRentsRequest extends FormRequest
             'return_date' => 'required|date',
             'rent_date' => 'required|date',
             'status' => 'required|string',
-            'amount_per_day' => 'required|numeric|min:1',
+            'total_amount' => 'required|numeric|min:1',
             'comments' => 'nullable|string',
         ];
     }

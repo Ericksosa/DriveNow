@@ -17,9 +17,12 @@ class ReturnsAndRents extends Model
         'vehicle_id',
         'rent_date',
         'return_date',
-        'amount_per_day',
-        'comments',
+        'total_amount',
         'status',
+    ];
+    protected $casts = [
+        'rent_date' => 'datetime',
+        'return_date' => 'datetime',
     ];
     public function employee()
     {
@@ -32,5 +35,9 @@ class ReturnsAndRents extends Model
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
+    }
+    public function ratings()
+    {
+        return $this->hasOne(VehicleRating::class, 'rent_id');
     }
 }

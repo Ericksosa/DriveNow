@@ -12,7 +12,19 @@
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&family=poppins:400,500,600,700&display=swap"
         rel="stylesheet" />
     <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}" type="image/x-icon">
-
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    @if (Session::has('success'))
+        <meta name="sweet-alert-success" content="{{ Session::get('success') }}">
+    @endif
+    @if (Session::has('error'))
+        <meta name="sweet-alert-error" content="{{ Session::get('error') }}">
+    @endif
+    @if (Session::has('warning'))
+        <meta name="sweet-alert-warning" content="{{ Session::get('warning') }}">
+    @endif
+    @if ($errors->any())
+        <meta name="sweet-alert-errors" content="{{ json_encode($errors->all()) }}">
+    @endif
     <!-- Styles -->
     @vite('resources/css/welcome.css')
     <style>
@@ -22,6 +34,8 @@
             min-height: 100vh;
         }
     </style>
+    @livewireStyles
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -39,33 +53,11 @@
 
                 <!-- Navigation Items -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <div class="flex items-center space-x-2 text-white/80">
-                        <img src="/placeholder.svg?height=20&width=30" alt="ES" class="w-5 h-3">
-                        <span class="text-sm">ES</span>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-
-                    <div class="flex items-center space-x-2 text-white/80">
-                        <span class="text-sm">DOP</span>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-
-                    <a href="#" class="text-white/80 hover:text-white transition-colors text-sm">
-                        <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                            </path>
-                        </svg>
-                        Ayuda
-                    </a>
+                    <a href="{{ url('/') }}" class="text-gray-200 hover:text-gray-900 transition-colors">Inicio</a>
+                    <a href="{{ route('vehicles-show-rent') }}"
+                        class="text-gray-200 hover:text-gray-900 font-semibold">Vehículos</a>
+                    <a href="{{ route('showReservations') }}"
+                        class="text-gray-200 hover:text-gray-900 transition-colors">Mis Reservas</a>
                 </div>
 
                 <!-- Auth Links -->
@@ -117,72 +109,6 @@
                 <p class="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto text-pretty">
                     Conectándote a las mejores experiencias a los mejores precios
                 </p>
-            </div>
-
-            <!-- Search Form inspired by Rentcars -->
-            <div class="search-form p-8 max-w-5xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <!-- Pickup Location -->
-                    <div class="md:col-span-1">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Recogida</label>
-                        <div class="relative">
-                            <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            <input type="text" placeholder="Buscar destinos"
-                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        </div>
-                        <p class="text-sm text-blue-600 mt-1">+ Devolución en otra ubicación</p>
-                    </div>
-
-                    <!-- Pickup Date -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de recogida</label>
-                        <input type="date" value="2025-09-21"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <p class="text-sm text-gray-500 mt-1">Hora: 10:00</p>
-                    </div>
-
-                    <!-- Return Date -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Devolución</label>
-                        <input type="date" value="2025-09-22"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <p class="text-sm text-gray-500 mt-1">Hora: 10:00</p>
-                    </div>
-
-                    <!-- Search Button -->
-                    <div class="flex items-end">
-                        @guest
-                            <a href="{{ route('register') }}"
-                                class="btn-search w-full px-6 py-4 rounded-lg text-lg font-semibold text-center block">
-                                Buscar
-                            </a>
-                        @else
-                            <a href="{{ route(strtolower(Auth::user()->roles->first()->name) . '.dashboard') }}"
-                                class="btn-search w-full px-6 py-4 rounded-lg text-lg font-semibold text-center block">
-                                Buscar
-                            </a>
-                        @endguest
-                    </div>
-                </div>
-
-                <!-- Residence Selector -->
-                <div class="flex items-center text-sm text-gray-600">
-                    <span class="mr-2">Residencia:</span>
-                    <img src="/placeholder.svg?height=16&width=24" alt="RD" class="w-4 h-3 mr-2">
-                    <span class="font-medium">República Dominicana</span>
-                    <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </div>
             </div>
 
             <!-- Feature badges like Rentcars -->
@@ -262,69 +188,71 @@
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($premiumVehicles as $premiumVehicle)
-                <!-- Cars -->
-                <div
-                    class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="relative">
-                        @if ($premiumVehicle->hasMedia('vehicle_images'))
-                                        <img id="logo-image"
-                                            src="{{ $premiumVehicle->getFirstMediaUrl('vehicle_images') }}" alt="Logo"
-                                            class="h-full w-full object-contain rounded-lg">
-                                    @else
-                                        <span class="text-gray-400">No hay imagen. Suba una</span>
-                                    @endif
-                        <div
-                            class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                            {{ $premiumVehicle->category }}
-                        </div>
-                        <div
-                            class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                            ⭐ 4.8
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">{{ $premiumVehicle->name }}</h3>
-                        <p class="text-gray-600 mb-4">{{ $premiumVehicle->description }}</p>
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    {{ $premiumVehicle->number_of_seats }} asientos
-                                </span>
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-orange-500" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path
-                                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
-                                        </path>
-                                    </svg>
-                                    {{$premiumVehicle->transmission}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-2xl font-bold text-blue-600">RD${{ $premiumVehicle->amount_per_day }}</span>
-                                <span class="text-gray-500">/día</span>
-                            </div>
-                            @guest
-                                <a href="{{ route('register') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
+                    <!-- Cars -->
+                    <div
+                        class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
+                        <div class="relative">
+                            @if ($premiumVehicle->hasMedia('vehicle_images'))
+                                <img id="logo-image" src="{{ $premiumVehicle->getFirstMediaUrl('vehicle_images') }}"
+                                    alt="Logo" class="h-full w-full object-contain rounded-lg">
                             @else
-                                <a href="{{ route(strtolower(Auth::user()->roles->first()->name) . '.dashboard') }}"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                    Reservar
-                                </a>
-                            @endguest
+                                <span class="text-gray-400">No hay imagen. Suba una</span>
+                            @endif
+                            <div
+                                class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                {{ $premiumVehicle->category }}
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
+                                ⭐ {{ $premiumVehicle->rating }}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2 font-poppins">
+                                {{ $premiumVehicle->name }}</h3>
+                            <p class="text-gray-600 mb-4">{{ $premiumVehicle->description }}</p>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1 text-blue-600" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        {{ $premiumVehicle->number_of_seats }} asientos
+                                    </span>
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1 text-orange-500" fill="currentColor"
+                                            viewBox="0 0 20 20">
+                                            <path
+                                                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
+                                            </path>
+                                        </svg>
+                                        {{ $premiumVehicle->transmission }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span
+                                        class="text-2xl font-bold text-blue-600">RD${{ $premiumVehicle->amount_per_day }}</span>
+                                    <span class="text-gray-500">/día</span>
+                                </div>
+                                @guest
+                                    <a href="{{ route('register') }}"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                        Reservar
+                                    </a>
+                                @else
+                                    <a href="{{ route('vehicles-show-rent') }}"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                        Reservar
+                                    </a>
+                                @endguest
+                            </div>
                         </div>
                     </div>
-                </div>
                 @empty
-                <p>No hay vehiculos disponibles</p>
+                    <p>No hay vehiculos disponibles</p>
                 @endforelse
             </div>
 
@@ -337,7 +265,7 @@
                         Registrarse para Ver Más
                     </a>
                 @else
-                    <a href="{{ route(strtolower(Auth::user()->roles->first()->name) . '.dashboard') }}"
+                    <a href="{{ route('vehicles-show-rent') }}"
                         class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold inline-block hover:bg-blue-700 transition-colors">
                         Ver Toda la Flota
                     </a>
@@ -434,6 +362,11 @@
             </div>
         </div>
     </footer>
+    @livewireScripts
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

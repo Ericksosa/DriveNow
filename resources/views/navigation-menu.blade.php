@@ -16,6 +16,8 @@
                     @include('admin.navigation-menu-links')
                     @elseif(auth()->user()->hasRole('Empleado'))
                     @include('employee.navigation-menu-links')
+                    @elseif(auth()->user()->hasRole('Cliente'))
+                    @include('navigation-menu-links')
                     @endif
                 </div>
             </div>

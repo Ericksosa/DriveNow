@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('vehicle_ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vehicle_id')->constrained('vehicles');
+            $table->foreignId('rent_id')->constrained('returns_and_rents');
             $table->foreignId('customer_id')->constrained('customers');
             $table->tinyInteger('rating')->unsigned();
             $table->text('comment')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

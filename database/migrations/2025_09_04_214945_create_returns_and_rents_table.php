@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('returns_and_rents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('employee_id')->nullable()->constrained('employees');
             $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('vehicle_id')->constrained('vehicles');
             $table->date('rent_date');
             $table->date('return_date');
-            $table->bigInteger('amount_per_day');
-            $table->text('comments')->nullable();
-            $table->enum('status', ['Reservado', 'Devuelto', 'Cancelado'])->default('Reservado');
+            $table->bigInteger('total_amount');
+            $table->enum('status', ['Reservado', 'Devuelto', 'Cancelado', 'Pendiente de aprobación'])->default('Pendiente de aprobación');
             $table->softDeletes();
             $table->timestamps();
         });

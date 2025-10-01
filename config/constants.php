@@ -19,6 +19,7 @@ return [
         'Reservado' => 'Reservado',
         'Devuelto' => 'Devuelto',
         'Cancelado' => 'Cancelado',
+        'Pendiente de aprobación' => 'Pendiente de aprobación'
     ],
     'tire-statuses' => [
         'Buena' => 'Buena',
@@ -43,5 +44,9 @@ return [
     'transmissions' => [
         'Automático' => 'Automático',
         'Manual' => 'Manual'
+    ],
+    'people_type' => [
+        'Física' => 'Física',
+        'Jurídica' => 'Jurídica'
     ]
 ];

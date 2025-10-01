@@ -4,18 +4,19 @@
             <div class="p-6 flex justify-between items-center">
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {{ __('Tabla Gestión de Rentas y Retornos') }}
+                        {{ __('Tabla Gestión de Empleados') }}
                     </h3>
                     <p class="text-gray-600 dark:text-gray-400">
-                        {{ __('Aqui puedes gestionar las rentas y retornos. Crear, Editar y Eliminar') }}</p>
+                        {{ __('Aqui puedes gestionar los empleados. Crear, Editar y Eliminar') }}</p>
                 </div>
                 <div class="flex relative">
-                    <input wire:model.live="search" type="text" name="search" placeholder="{{ __('Buscar...') }}"
-                        class="px-4 py-2 pl-10 rounded dark:bg-gray-800 dark:text-white placeholder-gray-400 w-full">
+                    <input wire:model.live="search" type="text" placeholder="Buscar empleado..."
+                        class="px-4 py-2 pl-10 rounded dark:bg-gray-800 dark:text-white w-full">
+
                     <span class="absolute left-2 top-2 text-gray-400">
                         <i class="fas fa-search"></i>
                     </span>
-                    <a href="{{ route('return-and-rents.create') }}"
+                    <a href="{{ route('customer.create') }}"
                         class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700 ml-2">
                         {{ __('Crear') }}
                     </a>
@@ -48,35 +49,23 @@
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Empleado') }}
+                                {{ __('Nombre(s)') }}
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Cliente') }}
+                                {{ __('Apellido(s)') }}
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Vehiculo') }}
+                                {{ __('Cédula') }}
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Fecha de Renta') }}
+                                {{ __('Límite de crédito') }}
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Fecha de Retorno') }}
-                            </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Monto X Día') }}
-                            </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Comentarios') }}
-                            </th>
-                            <th
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
-                                {{ __('Estado') }}
+                                {{ __('Tipo de Persona') }}
                             </th>
                             <th
                                 class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider border-b border-gray-300 dark:border-gray-700">
@@ -88,59 +77,40 @@
 
                         <tr>
                             <!-- Solo muestra los campos más importantes -->
-                            @forelse($returnRents as $returnRent)
+                            @forelse($clients as $client)
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->id }}
+                                    {{ $client->id }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->employee && $returnRent->employee->user ? $returnRent->employee->user->name . ' ' . $returnRent->employee->user->last_name : 'N/A' }}
+                                    {{ $client->user->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->customer->user->name . ' ' . $returnRent->customer->user->last_name }}
+                                    {{ $client->user->last_name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->vehicle->name }}
+                                    {{ $client->id_card_number }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->rent_date }}
+                                    RD${{ number_format($client->credit_limit,2) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->return_date }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->total_amount }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->comments }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-200">
-                                    {{ $returnRent->status }}
+                                    {{ $client->person_type }}
                                 </td>
 
                                 <!-- Agrega un botón para expandir la fila -->
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                                    @if ($returnRent->status === 'Pendiente de aprobación')
-                                        <form method="POST"
-                                            action="{{ route('return-and-rents.approve', ['id' => $returnRent->id]) }}"
-                                            style="display: inline;" class="delete-form">
-                                            @csrf
-                                            <button type="submit"
-                                                class="px-4 py-2 text-yellow-500 hover:text-yellow-700">
-                                                {{ __('Aprobar') }}
-                                            </button>
-                                        </form>
-                                    @endif
-                                    <a href="{{ route('return-and-rents.edit', ['return_and_rent' => $returnRent->id]) }}"
+
+                                    <a href="{{ route('customer.edit', ['customer' => $client->id]) }}"
                                         class="px-4 py-2 text-blue-500 hover:text-blue-700">
                                         {{ __('Editar') }}
                                     </a>
                                     <form method="POST"
-                                        action="{{ route('return-and-rents.destroy', ['return_and_rent' => $returnRent->id]) }}"
+                                        action="{{ route('customer.destroy', ['customer' => $client->id]) }}"
                                         style="display: inline;" class="delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="px-4 py-2 text-red-500 hover:text-red-700"
-                                            data-confirm="¿Estás seguro de que deseas eliminar la renta / devolución {{ $returnRent->id }}?">
+                                            data-confirm="¿Estás seguro de que deseas eliminar el empleado {{ $client->name }}?">
                                             {{ __('Eliminar') }}
                                         </button>
                                     </form>
@@ -149,7 +119,7 @@
                     @empty
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-gray-400" colspan="10">
-                                {{ __('No hay registros de rentas y retornos. Crea uno ahora.') }}
+                                {{ __('No hay registros de empleado. Crea uno ahora.') }}
                             </td>
                         </tr>
                         @endforelse
@@ -159,7 +129,7 @@
         </div>
         @if ($search == '')
             <div class="m-4">
-                {{ $returnRents->links('pagination::tailwind') }}
+                {{ $clients->links('pagination::tailwind') }}
             </div>
         @endif
     </div>

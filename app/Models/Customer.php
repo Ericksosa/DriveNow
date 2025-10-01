@@ -35,4 +35,8 @@ class Customer extends Model
     {
         return $this->hasMany(Inspection::class, 'customer_id');
     }
+    public function ratings()
+    {
+        return $this->hasMany(VehicleRating::class, 'customer_id');
+    }
 }

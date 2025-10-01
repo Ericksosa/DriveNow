@@ -100,4 +100,18 @@ class ReturnAndRentsController extends Controller
             return redirect()->route('return-and-rents.index')->with('error', 'Error al eliminar el retorno');
         }
     }
+
+    public function approve(string $id){
+        DB::beginTransaction();
+        try{
+            ReturnsAndRents::where('id', $id)->update(['status' => 'Reservado',
+            'employee_id' => auth()->user()->employee->id,
+        ]);
+            DB::commit();
+            return redirect()->route('return-and-rents.index')->with('success', 'Retorno aprobado correctamente');
+        }catch(Exception $e){
+            DB::rollBack();
+            return redirect()->route('return-and-rents.index')->with('error', 'Error al aprobar el retorno');
+        }
+    }
 }

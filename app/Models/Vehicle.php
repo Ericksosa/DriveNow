@@ -63,4 +63,8 @@ class Vehicle extends Model implements HasMedia
     {
         return $this->hasMany(ReturnsAndRents::class);
     }
+    public function ratings()
+    {
+        return $this->hasMany(VehicleRating::class, 'vehicle_id');
+    }
 }

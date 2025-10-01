@@ -48,4 +48,6 @@
         </div>
     </div>
 </div>
-
+<x-nav-link href="{{ route('customer.index') }}" :active="request()->routeIs('customer.index')">
+    {{ __('Clientes') }}
+</x-nav-link>

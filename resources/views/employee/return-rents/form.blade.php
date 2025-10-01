@@ -21,12 +21,12 @@
     </div>
     <!-- Campo ReturnRent -->
     <div>
-        <label for="amount_per_day"
+        <label for="total_amount"
             class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200">{{ __('Monto por día') }}</label>
         <div class="relative mt-2 rounded-md shadow-sm">
             <input type="number" step="0.01"
-                value="{{ old('amount_per_day', isset($returnAndRent) ? $returnAndRent->amount_per_day : '') }}"
-                name="amount_per_day" id="amount_per_day"
+                value="{{ old('total_amount', isset($returnAndRent) ? $returnAndRent->total_amount : '') }}"
+                name="total_amount" id="total_amount"
                 class="block w-full rounded-md border-0 py-1.5 pl-3 pr-20 text-black ring-inset ring-gray-300  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="{{ __('Ej: RD$1500') }}">
         </div>
