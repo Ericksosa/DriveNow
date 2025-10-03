@@ -80,13 +80,13 @@
                     <x-label for="person_type" value="{{ __('Tipo de Persona') }}" />
                     <div class="flex items-center mt-2">
                         <label class="flex items-center mr-4">
-                            <input type="radio" name="person_type" value="fisica" class="form-radio text-blue-600"
-                                {{ old('person_type') == 'fisica' ? 'checked' : '' }}>
+                            <input type="radio" name="person_type" value="Física" class="form-radio text-blue-600"
+                                {{ old('person_type') == 'Física' ? 'checked' : '' }}>
                             <span class="ml-2 text-gray-700">{{ __('Física') }}</span>
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="person_type" value="juridica" class="form-radio text-blue-600"
-                                {{ old('person_type') == 'juridica' ? 'checked' : '' }}>
+                            <input type="radio" name="person_type" value="Jurídica" class="form-radio text-blue-600"
+                                {{ old('person_type') == 'Jurídica' ? 'checked' : '' }}>
                             <span class="ml-2 text-gray-700">{{ __('Jurídica') }}</span>
                         </label>
                     </div>

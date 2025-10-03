@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VehicleExport;
 use App\Http\Requests\VehicleRequest;
 use App\Models\FuelType;
 use App\Models\Vehicle;
 use App\Models\VehicleModel;
 use App\Models\VehicleType;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleController extends Controller
 {
@@ -112,5 +115,17 @@ class VehicleController extends Controller
             DB::rollBack();
             return redirect()->route('vehicle.index')->with('error', 'Error al eliminar el vehículo');
         }
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new VehicleExport, 'vehicle.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $vehicles = Vehicle::all();
+        $pdf = Pdf::loadView('admin.vehicle.pdf.export-pdf', compact('vehicles'))
+            ->setPaper('a4', 'landscape');
+        return $pdf->download('Vehicles.pdf');
     }
 }

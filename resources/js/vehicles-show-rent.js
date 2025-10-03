@@ -21,6 +21,8 @@ if (typeof isAuthenticated === "undefined") {
     var isAuthenticated = false;
 }
 
+isAuthenticated = true;
+
 async function loadVehicles() {
     try {
         const response = await fetch("/client/load-vehicles"); // Realiza la solicitud a la ruta
@@ -388,19 +390,19 @@ function renderVehicles() {
                         <span class="text-gray-500">/día</span>
                     </div>
                     ${
-                        isAuthenticated
+                        isAuthenticated && vehicle.status
                             ? `
-                        <button onclick="openRentModal(${vehicle.id}, '${vehicle.name}')" class="btn-primary px-6 py-2 rounded-lg font-medium flex items-center">
-                         <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
-                            Reservar
-                        </button>
-                    `
+                            <button onclick="openRentModal(${vehicle.id}, '${vehicle.name}')" class="btn-primary px-6 py-2 rounded-lg font-medium flex items-center">
+                                <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
+                                Reservar
+                            </button>
+                            `
                             : `
-                        <button onclick="openRentModal(${vehicle.id}, '${vehicle.name}')" class="btn-primary px-6 py-2 rounded-lg font-medium flex items-center">
-                            <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
-                            Reservar
-                        </button>
-                    `
+                            <button disabled title="${isAuthenticated ? 'El vehículo no está disponible' : 'Debes iniciar sesión para reservar'}" class="btn-primary px-6 py-2 rounded-lg font-medium flex items-center opacity-50 cursor-not-allowed">
+                                <i data-feather="calendar" class="w-4 h-4 mr-1"></i>
+                                Reservar
+                            </button>
+                            `
                     }
 
                 </div>

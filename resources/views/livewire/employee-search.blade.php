@@ -20,22 +20,16 @@
                         class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700 ml-2">
                         {{ __('Crear') }}
                     </a>
-                    <a href="#" id="import_button"
+                    <a href="{{ route('employee.export') }}" id="export_button"
                         class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 ml-2 flex items-center">
                         <i class="bi bi-filetype-xlsx mr-2"></i>
-                        {{ __('Importar') }}
+                        {{ __('Excel') }}
                     </a>
-                    <a href="{{ '' }}" id="export_button"
+                    <a href="{{ route('employee.export.pdf') }}" id="export_button"
                         class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700 ml-2 flex items-center">
-                        <i class="bi bi-filetype-xlsx mr-2"></i>
-                        {{ __('Exportar') }}
+                        <i class="bi bi-filetype-pdf mr-2"></i>
+                        {{ __('PDF') }}
                     </a>
-                    <form method="POST" action="{{ '' }}" enctype="multipart/form-data" id="import_form"
-                        style="display: none;">
-                        @csrf
-                        <input type="file" name="document_csv" id="document_csv" style="display: none;"
-                            onchange="document.getElementById('import_form').submit();">
-                    </form>
                 </div>
             </div>
             <div class="overflow-x-auto">

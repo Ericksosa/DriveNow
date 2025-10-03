@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BrandExport;
 use App\Http\Requests\BrandRequest;
 use App\Models\Brand;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BrandController extends Controller
 {
@@ -81,5 +84,18 @@ class BrandController extends Controller
             DB::rollBack();
             return redirect()->route('brand.index')->with('error', 'Error al eliminar la marca');
         }
+    }
+
+    public function exportPdf()
+    {
+        $brands = Brand::all();
+        $pdf = Pdf::loadView('admin.brand.pdf.export-pdf', compact('brands'))
+            ->setPaper('a4', 'portrait');
+        return $pdf->download('Brands.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new BrandExport, 'Brands.xlsx');
     }
 }

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FuelTypeExport;
 use App\Http\Requests\FuelTypeRequest;
 use App\Models\FuelType;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Exp;
 
 class FuelTypeController extends Controller
 {
@@ -78,5 +82,17 @@ class FuelTypeController extends Controller
         } catch (Exception $e) {
             return redirect()->route('fuel-type.index')->with('error', 'Error al eliminar el tipo de combustible');
         }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new FuelTypeExport, 'FuelTypes.xlsx');
+    }
+    public function exportPdf()
+    {
+        $fuelTypes = FuelType::all();
+        $pdf = Pdf::loadView('admin.fuel-type.pdf.export-pdf', compact('fuelTypes'))
+        ->setPaper('a4', 'portrait');
+    return $pdf->download('FuelTypes.pdf');
     }
 }

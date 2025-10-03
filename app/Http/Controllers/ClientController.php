@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientController extends Controller
 {
@@ -115,6 +118,10 @@ class ClientController extends Controller
         $vehicles = Vehicle::with(['vehicleModel', 'fuelType', 'media']) // Cargar relaciones necesarias
             ->get()
             ->map(function ($vehicle) {
+                $isAvailable = !$vehicle->returnsAndRents()
+                    ->whereIn('status', ['Reservado', 'Pendiente de aprobación'])
+                    ->exists(); // Verificar si hay una renta con estado "Reservado" o "En mantenimiento"
+
                 return [
                     'id' => $vehicle->id,
                     'name' => $vehicle->name,
@@ -131,6 +138,7 @@ class ClientController extends Controller
                         $vehicle->fuelType->name, // Tipo de combustible
                         $vehicle->color, // Color
                     ],
+                    'status' => $isAvailable, // true si está disponible, false si no
                 ];
             });
 
@@ -158,5 +166,17 @@ class ClientController extends Controller
             ->orderBy('amount', 'desc')
             ->get();
         return $categories;
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new CustomerExport, 'customer.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $customers = Customer::all();
+        $pdf = Pdf::loadView('admin.client.pdf.export-pdf', compact('customers'))
+            ->setPaper('a4', 'portrait');
+        return $pdf->download('Customers.pdf');
     }
 }

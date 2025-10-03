@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RentsAndReturnsExport;
 use App\Http\Requests\ReturnAndRentsRequest;
 use App\Models\Customer;
 use App\Models\ReturnsAndRents;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReturnAndRentsController extends Controller
 {
@@ -113,5 +116,18 @@ class ReturnAndRentsController extends Controller
             DB::rollBack();
             return redirect()->route('return-and-rents.index')->with('error', 'Error al aprobar el retorno');
         }
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new RentsAndReturnsExport, 'return-and-rents.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $returnsAndRents = ReturnsAndRents::all();
+        $pdf = Pdf::loadView('employee.return-rents.pdf.export-pdf', compact('returnsAndRents'))
+            ->setPaper('a4', 'landscape');
+        return $pdf->download('ReturnAndRents.pdf');
     }
 }

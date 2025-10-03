@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\Customer;
 use App\Models\User;
+use App\Rules\CedulaDominicana;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,9 +30,9 @@ class CreateNewUser implements CreatesNewUsers
             'last_name' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'in:Masculino,Femenino'],
             'phone_number' => ['required', 'string', 'max:20'],
-            'id_card_number' => ['required', 'string', 'max:20'],
+            'id_card_number' => ['required', 'string', 'max:20', new CedulaDominicana],
             'credit_card_number' => ['required', 'string', 'max:20'],
-            'person_type' => ['required', 'string', 'in:fisica,juridica'], // Asegúrate de que sea 'fisica' o 'juridica'
+            'person_type' => ['required', 'string', 'in:Física,Jurídica'], // Asegúrate de que sea 'fisica' o 'juridica'
             'driver_license_number' => ['required', 'string', 'max:50'],
             'driver_license_expiration_date' => ['required', 'date'],
             'password' => $this->passwordRules(),

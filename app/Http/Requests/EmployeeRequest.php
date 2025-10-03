@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CedulaDominicana;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeeRequest extends FormRequest
@@ -28,7 +29,13 @@ class EmployeeRequest extends FormRequest
             'entry_date' => 'required|date',
             'gender' => 'required|string|in:Masculino,Femenino',
             'shift' => 'required|string|in:Matutino,Vespertina,Nocturna',
-            'id_card_number' => 'required|string|max:255|unique:employees,id_card_number,' . $this->employee->id,
+            'id_card_number' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:customers,id_card_number,' . $this->route('customer')?->id,
+                new CedulaDominicana, // Add the custom validation rule here
+            ],
             'commission_percentage' => 'required|integer|min:0|max:100',
         ];
     }

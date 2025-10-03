@@ -53,11 +53,30 @@
 
                 <!-- Navigation Items -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <a href="{{ url('/') }}" class="text-gray-200 hover:text-gray-900 transition-colors">Inicio</a>
-                    <a href="{{ route('vehicles-show-rent') }}"
-                        class="text-gray-200 hover:text-gray-900 font-semibold">Vehículos</a>
-                    <a href="{{ route('showReservations') }}"
-                        class="text-gray-200 hover:text-gray-900 transition-colors">Mis Reservas</a>
+                    @if (Auth::check())
+                        @if (Auth::user()->hasRole('Administrador'))
+                            <a href="{{ route('administrador.dashboard') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Dashboard</a>
+                            <a href="{{ route('vehicle.index') }}"
+                                class="text-gray-200 hover:text-gray-900 font-semibold">Gestión de Vehículos</a>
+                            <a href="{{ route('vehicle-model.index') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Gestión de Modelos</a>
+                        @elseif (Auth::user()->hasRole('Empleado'))
+                            <a href="{{ route('empleado.dashboard') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Dashboard</a>
+                            <a href="{{ route('inspection.index') }}"
+                                class="text-gray-200 hover:text-gray-900 font-semibold">Inspecciones</a>
+                            <a href="{{ route('return-and-rents.index') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Reservas y Retornos</a>
+                        @elseif (Auth::user()->hasRole('Cliente'))
+                            <a href="{{ url('/') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Inicio</a>
+                            <a href="{{ route('vehicles-show-rent') }}"
+                                class="text-gray-200 hover:text-gray-900 font-semibold">Vehículos</a>
+                            <a href="{{ route('showReservations') }}"
+                                class="text-gray-200 hover:text-gray-900 transition-colors">Mis Reservas</a>
+                        @endif
+                    @endif
                 </div>
 
                 <!-- Auth Links -->
@@ -243,10 +262,12 @@
                                         Reservar
                                     </a>
                                 @else
-                                    <a href="{{ route('vehicles-show-rent') }}"
-                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                                        Reservar
-                                    </a>
+                                    @if (Auth::user()->hasRole('Cliente'))
+                                        <a href="{{ route('vehicles-show-rent') }}"
+                                            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                            Reservar
+                                        </a>
+                                    @endif
                                 @endguest
                             </div>
                         </div>
@@ -265,10 +286,12 @@
                         Registrarse para Ver Más
                     </a>
                 @else
-                    <a href="{{ route('vehicles-show-rent') }}"
-                        class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold inline-block hover:bg-blue-700 transition-colors">
-                        Ver Toda la Flota
-                    </a>
+                    @if (Auth::user()->hasRole('Cliente'))
+                        <a href="{{ route('vehicles-show-rent') }}"
+                            class="bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold inline-block hover:bg-blue-700 transition-colors">
+                            Ver Toda la Flota
+                        </a>
+                    @endif
                 @endguest
             </div>
         </div>

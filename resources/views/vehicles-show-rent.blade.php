@@ -194,7 +194,7 @@
                 @if (Route::has('login'))
                     <div class="flex items-center space-x-4">
                         @auth
-                            <a href="{{ url('/dashboard') }}"
+                            <a href="{{ url('/client/dashboard') }}"
                                 class="btn-primary px-6 py-2 rounded-lg font-semibold flex items-center">
                                 <i data-feather="grid" class="w-5 h-5 mr-2"></i>
                                 Dashboard
@@ -243,6 +243,7 @@
     <!-- Scripts de SweetAlert (mover aquí, no en <head>) -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    window.isAuthenticated = @json(auth()->check());
 </body>
 </html>
 

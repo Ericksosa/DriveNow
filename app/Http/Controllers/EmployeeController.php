@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EmployeeExport;
 use App\Http\Requests\EmployeeRequest;
+use App\Imports\EmployeeImport;
 use App\Models\Employee;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeController extends Controller
 {
@@ -124,4 +128,16 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index')->with('error', 'Error al eliminar el empleado y su usuario.');
         }
     }
+    public function exportExcel()
+    {
+        return Excel::download(new EmployeeExport, 'Employees.xlsx');
+    }
+    public function exportPdf()
+{
+    $employees = Employee::with('user')->get();
+    $pdf = Pdf::loadView('admin.employee.pdf.export-pdf', compact('employees'))
+        ->setPaper('a4', 'portrait');
+    return $pdf->download('Employees.pdf');
+}
+
 }

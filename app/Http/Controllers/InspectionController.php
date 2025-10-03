@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InspectionExport;
 use App\Http\Requests\InspectionRequest;
 use App\Models\Customer;
 use App\Models\Inspection;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InspectionController extends Controller
 {
@@ -97,5 +100,17 @@ class InspectionController extends Controller
             DB::rollBack();
             return redirect()->route('inspection.index')->with('error', 'Error al eliminar la inspección');
         }
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new InspectionExport, 'inspections.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $inspections = Inspection::all();
+        $pdf = Pdf::loadView('employee.inspection.pdf.export-pdf', compact('inspections'))
+            ->setPaper('a4', 'landscape');
+        return $pdf->download('Inspections.pdf');
     }
 }
